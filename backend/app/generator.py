@@ -7,7 +7,7 @@ import os
 from openai import OpenAI
 
 
-DEFAULT_MODEL = "deepseek-v4-flash"
+DEFAULT_MODEL = "deepseek-chat"
 BASE_URL = "https://api.deepseek.com"
 
 
