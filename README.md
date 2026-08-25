@@ -84,6 +84,11 @@ python -m eval.run_comparison --api http://localhost:8000
 
 See [`backend/eval/comparison_results.md`](backend/eval/comparison_results.md).
 
+## Live demo
+
+- **UI:** [https://emotion-aware-rag-gold.vercel.app](https://emotion-aware-rag-gold.vercel.app)
+- **API:** [https://emotion-aware-rag.onrender.com](https://emotion-aware-rag.onrender.com) · health at `/health`
+
 ## Deploy
 
 ### 1. Render (API)
