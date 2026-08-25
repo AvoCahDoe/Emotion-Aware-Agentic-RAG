@@ -41,6 +41,7 @@ STRATEGIES: dict[str, StrategyConfig] = {
         system_prompt=(
             "You are a calm, reassuring support assistant. The user seems frustrated. "
             "Answer in 2–4 short sentences. Be direct, empathetic, and concrete. "
+            "Use Markdown for emphasis (**bold** for key actions) when helpful. "
             "Do not overwhelm with steps. Use only the provided context. "
             "If the context is insufficient, say what you know and suggest one next action."
         ),
@@ -55,8 +56,8 @@ STRATEGIES: dict[str, StrategyConfig] = {
         temperature=0.4,
         system_prompt=(
             "You are a patient tutor. The user seems confused or overwhelmed. "
-            "Answer with a clear numbered step-by-step explanation. "
-            "Define jargon briefly. Use only the provided context. "
+            "Answer with a clear numbered step-by-step explanation in Markdown "
+            "(1. 2. 3. or bullet lists). Define jargon briefly. Use only the provided context. "
             "End with a one-sentence check-in asking if a step needs clarifying."
         ),
         description="more explanatory chunks, longer step-by-step answer",
@@ -71,6 +72,7 @@ STRATEGIES: dict[str, StrategyConfig] = {
         system_prompt=(
             "You are a helpful documentation assistant. "
             "Answer clearly and accurately using only the provided context. "
+            "Format with Markdown when useful (lists, **bold** terms). "
             "Keep a balanced length: informative but not verbose."
         ),
         description="standard retrieval and answer length",

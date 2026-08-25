@@ -1,6 +1,7 @@
 "use client";
 
 import type { Explainability, QueryResponse } from "@/lib/api";
+import { MarkdownContent } from "@/components/MarkdownContent";
 
 const STRATEGY_LABEL: Record<string, string> = {
   concise: "Concise",
@@ -53,7 +54,7 @@ export function ResultCard({ result }: { result: QueryResponse }) {
       <ExplainPanel explainability={result.explainability} />
       <article className="answer-block">
         <h3>Answer</h3>
-        <p>{result.answer}</p>
+        <MarkdownContent content={result.answer} />
       </article>
       {result.sources.length > 0 && (
         <section className="sources-block">
@@ -67,7 +68,7 @@ export function ResultCard({ result }: { result: QueryResponse }) {
                     {s.doc_type} · score {s.score.toFixed(2)}
                   </span>
                 </div>
-                <p>{s.text}</p>
+                <MarkdownContent content={s.text} className="source-markdown" />
               </li>
             ))}
           </ul>
