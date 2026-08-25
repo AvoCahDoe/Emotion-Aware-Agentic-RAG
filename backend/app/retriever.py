@@ -1,14 +1,13 @@
-"""FAISS-backed document retriever with strategy-aware parameters."""
+"""Lightweight TF-IDF retriever — no torch/FAISS, fits Render free tier."""
 
 from __future__ import annotations
 
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
 
-
-EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 @dataclass
@@ -26,39 +25,25 @@ class RetrievedChunk:
 
 
 class Retriever:
-    def __init__(self, docs_dir: Path, model_name: str = EMBED_MODEL) -> None:
+    def __init__(self, docs_dir: Path) -> None:
         self.docs_dir = docs_dir
-        self.model_name = model_name
         self.documents: list[Document] = []
-        self._model: Any = None
-        self._index: Any = None
-        self._embeddings: Any = None
+        self._vectorizer: TfidfVectorizer | None = None
+        self._matrix = None
 
     def load(self) -> None:
-        if self._index is not None:
+        if self._matrix is not None:
             return
-        import faiss
-        import numpy as np
-        from sentence_transformers import SentenceTransformer
-
         self.documents = self._load_documents()
         if not self.documents:
             raise RuntimeError(f"No documents found in {self.docs_dir}")
-        self._model = SentenceTransformer(self.model_name)
-        texts = [f"{d.title}\n{d.text}" for d in self.documents]
-        embeddings = self._model.encode(
-            texts,
-            convert_to_numpy=True,
-            normalize_embeddings=True,
-            show_progress_bar=False,
-        )
-        self._embeddings = np.asarray(embeddings, dtype=np.float32)
-        self._index = faiss.IndexFlatIP(self._embeddings.shape[1])
-        self._index.add(self._embeddings)
+        corpus = [f"{d.title}\n{d.text}" for d in self.documents]
+        self._vectorizer = TfidfVectorizer(stop_words="english")
+        self._matrix = self._vectorizer.fit_transform(corpus)
 
     @property
     def ready(self) -> bool:
-        return self._index is not None and self._model is not None
+        return self._matrix is not None and self._vectorizer is not None
 
     def _load_documents(self) -> list[Document]:
         docs: list[Document] = []
@@ -71,12 +56,7 @@ class Retriever:
             body = re.sub(r"^type:\s*\w+\s*\n?", "", content, count=1, flags=re.IGNORECASE)
             body = re.sub(r"^#\s+.+\n?", "", body, count=1).strip()
             docs.append(
-                Document(
-                    doc_id=path.stem,
-                    title=title,
-                    text=body,
-                    doc_type=doc_type,
-                )
+                Document(doc_id=path.stem, title=title, text=body, doc_type=doc_type)
             )
         return docs
 
@@ -89,25 +69,17 @@ class Retriever:
         preferred_types: set[str] | None = None,
     ) -> list[RetrievedChunk]:
         self.load()
-        assert self._model is not None and self._index is not None
+        assert self._vectorizer is not None and self._matrix is not None
 
-        fetch_k = min(len(self.documents), max(top_k * 3, top_k))
-        q = self._model.encode(
-            [query],
-            convert_to_numpy=True,
-            normalize_embeddings=True,
-            show_progress_bar=False,
-        ).astype("float32")
-        scores, indices = self._index.search(q, fetch_k)
+        q_vec = self._vectorizer.transform([query])
+        scores = (self._matrix @ q_vec.T).toarray().ravel()
 
         chunks: list[RetrievedChunk] = []
-        for score, idx in zip(scores[0], indices[0]):
-            if idx < 0:
-                continue
-            doc = self.documents[int(idx)]
+        for idx, score in enumerate(scores):
             s = float(score)
             if s < min_score:
                 continue
+            doc = self.documents[idx]
             if preferred_types and doc.doc_type in preferred_types:
                 s = min(1.0, s + 0.05)
             chunks.append(RetrievedChunk(doc=doc, score=s))

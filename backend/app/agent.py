@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from .emotion_detector import EmotionDetector, EmotionResult
+from .emotion_detector import EmotionResult
 from .generator import Generator
 from .retriever import RetrievedChunk, Retriever
 from .schemas import Explainability, QueryResponse, SourceChunk
@@ -101,7 +101,7 @@ def build_rationale(emotion: EmotionResult, strategy: StrategyConfig) -> str:
 class EmotionAwareAgent:
     def __init__(
         self,
-        emotion_detector: EmotionDetector,
+        emotion_detector,
         retriever: Retriever,
         generator: Generator,
     ) -> None:

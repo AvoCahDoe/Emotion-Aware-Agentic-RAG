@@ -35,7 +35,7 @@ flowchart LR
 
 ## Stack
 
-- **API:** FastAPI · HuggingFace `j-hartmann/emotion-english-distilroberta-base` · FAISS + `all-MiniLM-L6-v2` · DeepSeek (`deepseek-v4-flash` via OpenAI-compatible API)
+- **API:** FastAPI · DeepSeek (`deepseek-chat`) for emotion + generation · TF-IDF retrieval
 - **UI:** Next.js (App Router) on Vercel
 - **Hosting:** Render (Docker web service) + Vercel
 

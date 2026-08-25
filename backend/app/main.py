@@ -12,7 +12,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from .agent import EmotionAwareAgent
-from .emotion_detector import EmotionDetector
+from .emotion_detector import create_emotion_detector
 from .generator import Generator
 from .retriever import Retriever
 from .schemas import HealthResponse, QueryRequest, QueryResponse
@@ -37,20 +37,20 @@ def _cors_origins() -> list[str]:
 async def lifespan(_app: FastAPI):
     global agent, models_ready, startup_error
     try:
-        detector = EmotionDetector()
-        retriever = Retriever(DOCS_DIR)
         generator = Generator()
-        agent = EmotionAwareAgent(detector, retriever, generator)
-        # Load heavy models at startup (emotion + embeddings). API key checked for readiness.
-        detector.load()
-        retriever.load()
         if not generator.ready:
             startup_error = "DEEPSEEK_API_KEY is not set"
             models_ready = False
+            agent = None
         else:
+            detector = create_emotion_detector(generator)
+            retriever = Retriever(DOCS_DIR)
+            agent = EmotionAwareAgent(detector, retriever, generator)
+            retriever.load()
+            detector.load()
             models_ready = True
             startup_error = None
-    except Exception as exc:  # noqa: BLE001 — surface startup failures via /health
+    except Exception as exc:  # noqa: BLE001
         startup_error = str(exc)
         models_ready = False
         agent = None
@@ -60,7 +60,7 @@ async def lifespan(_app: FastAPI):
 app = FastAPI(
     title="Emotion-Aware Agentic RAG",
     description="Affective strategy selection over a small RAG corpus with explainability traces.",
-    version="0.1.0",
+    version="0.2.0",
     lifespan=lifespan,
 )
 
@@ -89,7 +89,7 @@ def query(body: QueryRequest) -> QueryResponse:
     if agent is None or not models_ready:
         raise HTTPException(
             status_code=503,
-            detail=startup_error or "Service not ready. Check DEEPSEEK_API_KEY and model load.",
+            detail=startup_error or "Service not ready. Check DEEPSEEK_API_KEY.",
         )
     try:
         return agent.run(body.query.strip())
