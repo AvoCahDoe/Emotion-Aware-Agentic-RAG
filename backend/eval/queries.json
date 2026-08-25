@@ -1,0 +1,110 @@
+[
+  {
+    "id": "upload-frustrated",
+    "base_id": "upload",
+    "emotion_framing": "frustrated",
+    "query": "This is ridiculous — I uploaded my docs an hour ago and still get nothing useful. How do I actually get my documentation into NovaAssist?!"
+  },
+  {
+    "id": "upload-confused",
+    "base_id": "upload",
+    "emotion_framing": "confused",
+    "query": "I'm a bit lost... I think I need to upload documentation but I don't understand the steps or what Indexed means. Can you walk me through it slowly?"
+  },
+  {
+    "id": "upload-curious",
+    "base_id": "upload",
+    "emotion_framing": "curious",
+    "query": "Curious how document upload and indexing works in NovaAssist — what's the recommended flow?"
+  },
+  {
+    "id": "apikey-frustrated",
+    "base_id": "apikey",
+    "emotion_framing": "frustrated",
+    "query": "My API key is broken again and I'm furious. Just tell me how to reset it without the lecture."
+  },
+  {
+    "id": "apikey-confused",
+    "base_id": "apikey",
+    "emotion_framing": "confused",
+    "query": "I don't really get API keys... how do I safely reset mine in NovaAssist? I'm worried I'll break production."
+  },
+  {
+    "id": "apikey-neutral",
+    "base_id": "apikey",
+    "emotion_framing": "neutral",
+    "query": "How do I reset my NovaAssist API key?"
+  },
+  {
+    "id": "login-frustrated",
+    "base_id": "login",
+    "emotion_framing": "frustrated",
+    "query": "I can't log in and this password reset nonsense is driving me crazy. Fix it."
+  },
+  {
+    "id": "login-confused",
+    "base_id": "login",
+    "emotion_framing": "confused",
+    "query": "I'm confused about logging in — password vs SSO? I don't know which path to take."
+  },
+  {
+    "id": "login-curious",
+    "base_id": "login",
+    "emotion_framing": "curious",
+    "query": "What options does NovaAssist offer if someone can't log in?"
+  },
+  {
+    "id": "billing-frustrated",
+    "base_id": "billing",
+    "emotion_framing": "frustrated",
+    "query": "Your billing page is a mess. I just want Pro — stop wasting my time."
+  },
+  {
+    "id": "billing-confused",
+    "base_id": "billing",
+    "emotion_framing": "confused",
+    "query": "I'm unsure how Pro billing and cancellation work. Could you explain it carefully?"
+  },
+  {
+    "id": "billing-neutral",
+    "base_id": "billing",
+    "emotion_framing": "neutral",
+    "query": "How do I upgrade to NovaAssist Pro and what happens if I cancel?"
+  },
+  {
+    "id": "wrong-frustrated",
+    "base_id": "wrong_answers",
+    "emotion_framing": "frustrated",
+    "query": "The assistant keeps giving empty garbage answers and I'm done with this. Why?!"
+  },
+  {
+    "id": "wrong-confused",
+    "base_id": "wrong_answers",
+    "emotion_framing": "confused",
+    "query": "Sometimes answers are empty or wrong and I don't understand why. Can you explain the possible causes step by step?"
+  },
+  {
+    "id": "wrong-curious",
+    "base_id": "wrong_answers",
+    "emotion_framing": "curious",
+    "query": "Interesting — when would NovaAssist return empty or incorrect answers?"
+  },
+  {
+    "id": "slack-confused",
+    "base_id": "slack",
+    "emotion_framing": "confused",
+    "query": "I want Slack connected but the OAuth screens confuse me. Please guide me through connecting NovaAssist to Slack."
+  },
+  {
+    "id": "slack-neutral",
+    "base_id": "slack",
+    "emotion_framing": "neutral",
+    "query": "How do I connect NovaAssist to Slack?"
+  },
+  {
+    "id": "privacy-curious",
+    "base_id": "privacy",
+    "emotion_framing": "curious",
+    "query": "I'd love to learn more about NovaAssist privacy and how long chat logs are kept."
+  }
+]

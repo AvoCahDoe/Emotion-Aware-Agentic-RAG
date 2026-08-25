@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: emotion-agentic-rag-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: DEEPSEEK_API_KEY
+        sync: false
+      - key: DEEPSEEK_MODEL
+        value: deepseek-v4-flash
+      - key: CORS_ORIGINS
+        sync: false
+      - key: HF_HOME
+        value: /app/.cache/huggingface
+      - key: TRANSFORMERS_CACHE
+        value: /app/.cache/huggingface
