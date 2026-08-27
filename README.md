@@ -1,5 +1,10 @@
 # Emotion-Aware Agentic RAG
 
+[![Live Demo](https://img.shields.io/badge/demo-live-00C7B7?logo=vercel)](https://emotion-aware-rag-gold.vercel.app)
+[![API](https://img.shields.io/badge/API-Render-46E3B7?logo=render)](https://emotion-aware-rag.onrender.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/AvoCahDoe/Emotion-Aware-Agentic-RAG?label=release)](https://github.com/AvoCahDoe/Emotion-Aware-Agentic-RAG/releases)
+
 A small, hostable **research demo** of emotion-aware retrieval and generation: the agent detects affect in the user query, chooses a retrieval/generation strategy, answers from a tiny FAQ corpus, and surfaces **why** it chose that strategy.
 
 > Explores how affective signals can guide agentic RAG — combining emotion detection, strategy selection, and explainable decision traces.
